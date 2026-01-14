@@ -46,7 +46,7 @@ if __name__ == '__main__':
         create_intent(
             project_id,
             intent_name,
-            intent_data,
+            intent_data["questions"],
             [intent_data["answer"]]
         )
 
