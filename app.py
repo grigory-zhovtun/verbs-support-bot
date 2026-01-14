@@ -1,8 +1,7 @@
 import os
 import argparse
-
-from google.cloud import dialogflow
 import dotenv
+from google.cloud import dialogflow
 
 
 def fetch_intent_texts(project_id, session_id, query_input):
@@ -12,6 +11,7 @@ def fetch_intent_texts(project_id, session_id, query_input):
     return session_client.detect_intent(
             request={"session": session, "query_input": query_input}
     )
+
 
 def get_dialogflow_response(project_id, session_id, text, language_code):
     text_input = dialogflow.TextInput(text=text, language_code=language_code)
