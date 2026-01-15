@@ -1,16 +1,17 @@
-import logging
 import os
 import dotenv
 from telegram import Update
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, MessageHandler, filters
-from app import get_dialogflow_response
+from dialogflow_api import get_dialogflow_response
 
+
+LANGUAGE_CODE = 'ru-RU'
 
 async def start(update: Update, context: ContextTypes.DEFAULT_TYPE):
     await update.message.reply_text("Здравствуйте!")
 
 
-async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
+async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
     text = update.message.text
     project_id = context.bot_data['project_id']
@@ -18,7 +19,7 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
         project_id,
         str(chat_id),
         text,
-        'ru-RU'
+        LANGUAGE_CODE
     )
     if not is_fallback:
         await update.message.reply_text(response_text)
@@ -32,7 +33,7 @@ def main():
     app = ApplicationBuilder().token(token).build()
     app.bot_data['project_id'] = project_id
     app.add_handler(CommandHandler("start", start))
-    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, echo))
+    app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
 
     app.run_polling()
 
