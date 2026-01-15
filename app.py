@@ -18,7 +18,10 @@ def get_dialogflow_response(project_id, session_id, text, language_code):
     query_input = dialogflow.QueryInput(text=text_input)
     response = fetch_intent_texts(project_id, session_id, query_input)
 
-    return response.query_result.fulfillment_text
+    return (
+        response.query_result.fulfillment_text,
+        response.query_result.intent.is_fallback
+    )
 
 
 if __name__ == '__main__':

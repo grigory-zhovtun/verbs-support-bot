@@ -8,18 +8,23 @@ from app import get_dialogflow_response
 
 
 def reply(event, vk, project_id):
-    response_text = get_dialogflow_response(
+    response_text, is_fallback = get_dialogflow_response(
         project_id,
         str(event.user_id),
         event.text,
         'ru-RU'
     )
 
-    vk.messages.send(
-        user_id=event.user_id,
-        message=response_text,
-        random_id=random.randint(1, 1000)
-    )
+    print(f"Text: {event.text}")
+    print(f"Response: {response_text}")
+    print(f"Is fallback: {is_fallback}")
+
+    if not is_fallback:
+        vk.messages.send(
+            user_id=event.user_id,
+            message=response_text,
+            random_id=random.randint(1, 1000)
+        )
 
 
 if __name__ == "__main__":
@@ -31,6 +36,7 @@ if __name__ == "__main__":
     vk = vk_session.get_api()
 
     longpoll = VkLongPoll(vk_session)
+
     for event in longpoll.listen():
         if event.type == VkEventType.MESSAGE_NEW and event.to_me:
             reply(event, vk, project_id)
