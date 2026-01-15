@@ -14,9 +14,14 @@ async def echo(update: Update, context: ContextTypes.DEFAULT_TYPE):
     chat_id = update.message.chat_id
     text = update.message.text
     project_id = context.bot_data['project_id']
-    dialogflow_response = get_dialogflow_response(project_id, str(chat_id), text, 'ru-RU')
-
-    await update.message.reply_text(dialogflow_response)
+    response_text, is_fallback = get_dialogflow_response(
+        project_id,
+        str(chat_id),
+        text,
+        'ru-RU'
+    )
+    if not is_fallback:
+        await update.message.reply_text(response_text)
 
 
 def main():

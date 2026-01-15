@@ -15,10 +15,6 @@ def reply(event, vk, project_id):
         'ru-RU'
     )
 
-    print(f"Text: {event.text}")
-    print(f"Response: {response_text}")
-    print(f"Is fallback: {is_fallback}")
-
     if not is_fallback:
         vk.messages.send(
             user_id=event.user_id,
