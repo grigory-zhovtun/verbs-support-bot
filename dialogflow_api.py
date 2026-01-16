@@ -1,15 +1,26 @@
 import os
-import argparse
-import dotenv
+import json
 from google.cloud import dialogflow
+from google.oauth2 import service_account
+
+
+def get_dialogflow_credentials():
+    credentials_json = os.getenv("GOOGLE_APPLICATION_CREDENTIALS_JSON")
+
+    if credentials_json:
+        credentials_info = json.loads(credentials_json)
+        return service_account.Credentials.from_service_account_info(credentials_info)
+
+    return None
 
 
 def detect_intent(project_id, session_id, query_input):
-    session_client = dialogflow.SessionsClient()
+    credentials = get_dialogflow_credentials()
+    session_client = dialogflow.SessionsClient(credentials=credentials)
     session = session_client.session_path(project_id, session_id)
 
     return session_client.detect_intent(
-            request={"session": session, "query_input": query_input}
+        request={"session": session, "query_input": query_input}
     )
 
 
@@ -21,23 +32,4 @@ def get_dialogflow_response(project_id, session_id, text, language_code):
     return (
         response.query_result.fulfillment_text,
         response.query_result.intent.is_fallback
-    )
-
-
-if __name__ == '__main__':
-    dotenv.load_dotenv()
-    project_id = os.getenv("PROJECT_ID")
-
-    parser = argparse.ArgumentParser(description='Dialogflow intent detection')
-    parser.add_argument('text', nargs='+', help='Texts to detect intent for')
-    parser.add_argument('--session_id', default='123456789', help='Session ID (default: 123456789)')
-    parser.add_argument('--language', default='ru-RU', help='Language code (default: ru-RU)')
-
-    args = parser.parse_args()
-
-    get_dialogflow_response(
-        project_id,
-        args.session_id,
-        args.text,
-        args.language
     )
