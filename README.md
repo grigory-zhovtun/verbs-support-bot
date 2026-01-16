@@ -2,6 +2,15 @@
 
 Telegram and VK bots powered by Google DialogFlow for automated customer support. The bots recognize user intents and provide intelligent responses to frequently asked questions.
 
+## Demo
+
+Try the bots live:
+
+- **Telegram**: [t.me/verbs_support_bot](https://t.me/verbs_support_bot)
+- **VKontakte**: [vk.ru/club235353582](https://vk.ru/club235353582)
+
+![Bot Demo](demo.gif)
+
 ## Features
 
 - Dual platform support: Telegram and VKontakte
