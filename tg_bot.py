@@ -22,7 +22,7 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
     project_id = context.bot_data['project_id']
     response_text, is_fallback = get_dialogflow_response(
         project_id,
-        str(chat_id),
+        f"tg-{chat_id}",
         text,
         LANGUAGE_CODE
     )

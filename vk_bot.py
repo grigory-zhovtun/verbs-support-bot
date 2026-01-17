@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 def reply(event, vk, project_id):
     response_text, is_fallback = get_dialogflow_response(
         project_id,
-        str(event.user_id),
+        f"vk-{event.user_id}",
         event.text,
         LANGUAGE_CODE
     )
