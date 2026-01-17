@@ -32,10 +32,10 @@ def reply(event, vk, project_id):
 
 def main():
     dotenv.load_dotenv()
-    vk_token = os.getenv("VK_TOKEN")
-    project_id = os.getenv("PROJECT_ID")
-    tg_token = os.getenv("TG_TOKEN")
-    admin_chat_id = os.getenv("TG_ADMIN_CHAT_ID")
+    vk_token = os.environ['VK_TOKEN']
+    project_id = os.environ['PROJECT_ID']
+    tg_token = os.getenv('TG_TOKEN')
+    admin_chat_id = os.getenv('TG_ADMIN_CHAT_ID')
 
     logging.basicConfig(level=logging.ERROR)
 

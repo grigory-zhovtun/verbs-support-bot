@@ -43,8 +43,8 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 def main():
     dotenv.load_dotenv()
-    token = os.getenv("TG_TOKEN")
-    project_id = os.getenv("PROJECT_ID")
+    token = os.environ['TG_TOKEN']
+    project_id = os.environ['PROJECT_ID']
 
     logging.basicConfig(level=logging.ERROR)
 

@@ -35,7 +35,7 @@ def create_intent(project_id, display_name, training_phrases_parts, message_text
 
 if __name__ == '__main__':
     dotenv.load_dotenv()
-    project_id = os.getenv("PROJECT_ID")
+    project_id = os.environ['PROJECT_ID']
 
     intents_data = load_intents_data("questions.json")
     for intent_name, intent_data in intents_data.items():
