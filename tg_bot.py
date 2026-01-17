@@ -32,7 +32,13 @@ async def handle_message(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE):
     logger.error(f"Exception: {context.error}")
-    send_error_to_telegram("TG Bot", traceback.format_exc())
+    send_error_to_telegram(
+        "TG Bot",
+        traceback.format_exc(),
+        context.bot_data['tg_token'],
+        context.bot_data['admin_chat_id']
+    )
+
 
 
 def main():
@@ -43,6 +49,8 @@ def main():
     logging.basicConfig(level=logging.ERROR)
 
     app = ApplicationBuilder().token(token).build()
+    app.bot_data['tg_token'] = token
+    app.bot_data['admin_chat_id'] = os.getenv("TG_ADMIN_CHAT_ID")
     app.bot_data['project_id'] = project_id
     app.add_handler(CommandHandler("start", start))
     app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))

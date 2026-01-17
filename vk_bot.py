@@ -34,6 +34,8 @@ def main():
     dotenv.load_dotenv()
     vk_token = os.getenv("VK_TOKEN")
     project_id = os.getenv("PROJECT_ID")
+    tg_token = os.getenv("TG_TOKEN")
+    admin_chat_id = os.getenv("TG_ADMIN_CHAT_ID")
 
     logging.basicConfig(level=logging.ERROR)
 
@@ -49,7 +51,7 @@ def main():
                     reply(event, vk, project_id)
         except Exception as e:
             logger.error(f"Exception: {e}")
-            send_error_to_telegram("VK Bot", traceback.format_exc())
+            send_error_to_telegram("VK Bot", traceback.format_exc(), tg_token, admin_chat_id)
 
 
 if __name__ == "__main__":
