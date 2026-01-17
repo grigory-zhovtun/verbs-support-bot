@@ -28,11 +28,9 @@ def create_intent(project_id, display_name, training_phrases_parts, message_text
         display_name=display_name, training_phrases=training_phrases, messages=[message]
     )
 
-    response = intents_client.create_intent(
+    return intents_client.create_intent(
         request={"parent": parent, "intent": intent}
     )
-
-    print(f"Intent created: {response}")
 
 
 if __name__ == '__main__':
@@ -41,10 +39,10 @@ if __name__ == '__main__':
 
     intents_data = load_intents_data("questions.json")
     for intent_name, intent_data in intents_data.items():
-        create_intent(
+        response = create_intent(
             project_id,
             intent_name,
             intent_data["questions"],
             [intent_data["answer"]]
         )
-
+        print(f"Intent created: {response}")
